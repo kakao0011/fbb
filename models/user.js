@@ -19,21 +19,4 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-userSchema.pre('save', async function(next) {
-  if(!this.isModified("pass")) return next();
-  this.pass = await bcrypt.hash(this.pass, 10);
-  return next();
-});
-
-userSchema.methods.setToken = function() {
-  const token = jwt.sign({ _id: this._id }, process.env.JWT_TOKEN, { expiresIn: "15h" });
-  return token;
-};
-
-userSchema.methods.passCheck = async function(pass) {
-  const check = await bcrypt.compare(pass, this.parola);
-  return check;
-};
-
-
 module.exports = mongoose.models.User || mongoose.model('User', userSchema);
