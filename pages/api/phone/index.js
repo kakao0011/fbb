@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     case 'POST':
       console.log(req.body, "req.body in server")
 
-        let phoneCode = await Email.findOne({ code: body.code });
+        let phoneCode = await Email.findOne({ code: body.email });
 
         if(phoneCode) {
           return res.status(201).send({mess: "ok"});
